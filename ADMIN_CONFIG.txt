@@ -1,0 +1,125 @@
+# Admin Dashboard Configuration
+# Replace the placeholder values with your actual JSONBin.io credentials
+
+# ==========================================
+# JSONBIN.IO SETUP INSTRUCTIONS
+# ==========================================
+
+# 1. Go to https://jsonbin.io
+# 2. Create a free account
+# 3. Create a new "Bin" with this JSON structure:
+
+"""
+{
+  "winners": [
+    {
+      "id": "1",
+      "claimCode": "PCH203156",
+      "winnerName": "John Doe",
+      "prizeCategory": "$1,000,000.00",
+      "status": "Delivered",
+      "dateAdded": "2026-02-07T00:00:00.000Z"
+    }
+  ]
+}
+"""
+
+# 4. Note your:
+#    - Bin ID (from the URL: https://jsonbin.io/b/YOUR_BIN_ID)
+#    - Master Key (from Account Settings)
+
+# ==========================================
+# FILES TO UPDATE
+# ==========================================
+
+# UPDATE THESE FILES WITH YOUR CREDENTIALS:
+# 1. /admin/js/main.js (around line 125)
+# 2. /js/winners-loader.js (around line 52)
+
+# Replace:
+# const BIN_ID = 'YOUR_BIN_ID_HERE';
+# const MASTER_KEY = 'YOUR_MASTER_KEY_HERE';
+
+# With:
+# const BIN_ID = 'abc123def456';           # Your actual Bin ID
+# const MASTER_KEY = 'your_master_key';    # Your actual Master Key
+
+# ==========================================
+# TESTING YOUR SETUP
+# ==========================================
+
+# 1. Open admin dashboard: /admin/
+#    - Should see "Manage Winners" tab with your data
+#    - If "Setup Required" warning appears, credentials aren't set
+
+# 2. Add a test winner:
+#    - Go to "Add Winner" tab
+#    - Fill in form and click "Add Winner"
+#    - Should see success message
+
+# 3. Verify on public site:
+#    - Open /winners.html
+#    - New winner should appear in the table (may take 2-3 seconds)
+#    - If not, hard refresh (Ctrl+Shift+R)
+
+# ==========================================
+# SECURITY NOTES
+# ==========================================
+
+# ⚠️ IMPORTANT: DO NOT commit credentials to GitHub/public repositories!
+#
+# If using Netlify:
+# 1. Go to Site Settings > Environment
+# 2. Add REACT_APP_BIN_ID and REACT_APP_MASTER_KEY
+# 3. Reference them in code: process.env.REACT_APP_BIN_ID
+#
+# For Netlify, you'll need to use Netlify Functions as a backend proxy
+# to keep credentials secure.
+
+# ==========================================
+# QUICK START CHECKLIST
+# ==========================================
+
+# [ ] Create JSONBin.io account
+# [ ] Create a new Bin with winners array
+# [ ] Copy Bin ID and Master Key
+# [ ] Update /admin/js/main.js with credentials
+# [ ] Update /js/winners-loader.js with credentials
+# [ ] Test admin dashboard loads data correctly
+# [ ] Test adding a winner
+# [ ] Verify winner appears on /winners.html
+# [ ] Deploy to Netlify
+# [ ] Test live site
+# [ ] Set up environment variables (security)
+
+# ==========================================
+# TROUBLESHOOTING
+# ==========================================
+
+# Issue: "Setup Required" message
+# → Check if BIN_ID and MASTER_KEY are correctly set in both files
+
+# Issue: Data not loading
+# → Check browser console (F12) for error messages
+# → Verify Bin ID and Master Key are correct
+# → Ensure JSONBin.io bin has the correct structure
+
+# Issue: Changes not appearing on /winners.html
+# → Wait 2-3 seconds for sync
+# → Hard refresh page (Ctrl+Shift+R)
+# → Check browser console for errors
+
+# Issue: "Failed to fetch" error
+# → Check your internet connection
+# → Verify JSONBin.io is accessible
+# → Check that Bin ID is correct
+
+# ==========================================
+# SUPPORT RESOURCES
+# ==========================================
+
+# - Full Setup Guide: ADMIN_SETUP.md
+# - JSONBin.io Docs: https://jsonbin.io/docs
+# - Browser Dev Tools: Press F12 to open console
+# - JSONBin.io Status: https://status.jsonbin.io
+

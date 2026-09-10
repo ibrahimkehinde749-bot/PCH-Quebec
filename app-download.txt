@@ -1,0 +1,5 @@
+PCH Sweepstakes App Download Placeholder
+
+Thank you for choosing PCH Sweepstakes. This file serves as a placeholder download asset for the "Download App" button on the Contact page.
+
+Replace this file with your real app package or installer file (APK, IPA, ZIP, etc.) before deploying the production site.

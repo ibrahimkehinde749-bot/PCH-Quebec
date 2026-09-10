@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://pchsweepstakes.netlify.app/admin/">
+    <meta property="og:title" content="Admin Dashboard - PCH Winners Management">
+    <meta property="og:description" content="PCH Admin Dashboard - Winners Management System (Restricted Access)">
+    <meta property="og:image" content="../superprize.jpg">
+    <meta property="og:site_name" content="PCH Sweepstakes">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://pchsweepstakes.netlify.app/admin/">
+    <meta property="twitter:title" content="Admin Dashboard - PCH Winners Management">
+    <meta property="twitter:description" content="PCH Admin Dashboard - Winners Management System (Restricted Access)">
+    <meta property="twitter:image" content="../superprize.jpg">
+    
+    <title>Admin Dashboard - PCH Winners Management</title>
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Administrator Authentication Modal -->
+    <div id="inviteCodeModal" class="invite-modal-overlay">
+        <div class="invite-modal">
+            <div class="invite-modal-header">
+                <h1>🔐 Admin Dashboard Access</h1>
+            </div>
+            <div class="invite-modal-content">
+                <p>Enter your administrator Gmail address and password to continue.</p>
+                <form id="inviteCodeForm">
+                    <div class="form-group">
+                        <label for="adminLoginEmail">Administrator Gmail *</label>
+                        <input 
+                            type="email" 
+                            id="adminLoginEmail" 
+                            placeholder="admin@gmail.com" 
+                            required
+                            autocomplete="username"
+                        >
+                    </div>
+                    <div class="form-group">
+                        <label for="adminLoginPassword">Administrator Password *</label>
+                        <input type="password" id="adminLoginPassword" placeholder="Enter your password" required autocomplete="current-password">
+                    </div>
+                    <button type="submit" class="btn-invite-submit">Sign In</button>
+                    <div id="inviteError" class="invite-error" style="display: none;">
+                        ❌ Invalid administrator email or password.
+                    </div>
+                    <div style="margin-top: 1rem; text-align: center;">
+                        <button id="resetCodeLink" type="button" class="reset-link">Forgot password?</button>
+                    </div>
+
+                    <div id="resetEmailPrompt" class="reset-prompt" style="display: none;">
+                        <p>Enter the administrator Gmail address configured in Settings. We will send a one-time reset link if it matches.</p>
+                        <input type="email" id="resetEmailInput" placeholder="admin@gmail.com" autocomplete="email" required>
+                        <div class="reset-prompt-actions">
+                            <button id="resetEmailConfirm" type="button" class="btn-primary">Send Reset Link</button>
+                            <button id="resetEmailCancel" type="button" class="btn-secondary">Cancel</button>
+                        </div>
+                        <div id="resetEmailMessage" class="invite-error" style="display: none;"></div>
+                    </div>
+
+                    <div id="resetPasswordPrompt" class="reset-prompt" style="display: none;">
+                        <p>Choose a new password with at least 12 characters.</p>
+                        <input type="password" id="resetPasswordInput" placeholder="New password" autocomplete="new-password">
+                        <input type="password" id="resetPasswordConfirm" placeholder="Confirm new password" autocomplete="new-password">
+                        <button id="resetPasswordSubmit" type="button" class="btn-primary">Reset Password</button>
+                        <div id="resetPasswordMessage" class="invite-error" style="display: none;"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard (Hidden until authenticated) -->
+    <div id="dashboardContent" style="display: none;">
+    <div class="container">
+        <!-- Header -->
+        <div class="admin-header">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <h1>🎯 Winners Management Dashboard</h1>
+                    <p>Manage, edit, and update the winners list that appears on the public site</p>
+                </div>
+                <button id="logoutBtn" class="btn-logout" title="Logout">🚪 Logout</button>
+            </div>
+        </div>
+
+        <!-- Alert Container -->
+        <div id="alertContainer"></div>
+
+        <!-- Navigation -->
+        <div class="admin-nav">
+            <button id="btnManage" class="active">📋 Manage Winners</button>
+            <button id="btnAdd">➕ Add Winner</button>
+            <button id="btnStats">📊 Statistics</button>
+            <button id="btnSettings">⚙️ Settings</button>
+            <a href="../winners.html" style="text-decoration: none;">
+                <button style="background-color: #6b7280; color: white; border: none;">👁️ View Public Site</button>
+            </a>
+        </div>
+
+        <!-- Manage Winners Section -->
+        <div id="section-manage" class="admin-section">
+            <h2>Manage Winners</h2>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search by claim code, name, or prize...">
+            </div>
+
+            <table class="winners-table">
+                <thead>
+                    <tr>
+                        <th>Claim Code</th>
+                        <th>Winner Name</th>
+                        <th>Prize Category</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="winnersTableBody">
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 2rem;">Loading...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Add Winner Section -->
+        <div id="section-add" class="admin-section" style="display: none;">
+            <h2>Add New Winner</h2>
+            
+            <form id="addWinnerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="claimCode">Claim Code *</label>
+                        <input type="text" id="claimCode" placeholder="e.g., PCH123456" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="winnerName">Winner Name *</label>
+                        <input type="text" id="winnerName" placeholder="e.g., John Doe" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="prizeCategory">Prize Category *</label>
+                        <input type="text" id="prizeCategory" placeholder="e.g., $1,000,000.00" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status *</label>
+                        <select id="status" required>
+                            <option value="">Select Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Processing">Processing</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Claimed">Claimed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn-primary">Add Winner</button>
+                    <button type="reset" class="btn-secondary">Clear Form</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Statistics Section -->
+        <div id="section-stats" class="admin-section" style="display: none;">
+            <h2>Winners Statistics</h2>
+            <div id="statsContainer"></div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="section-settings" class="admin-section" style="display: none;">
+            <h2>Dashboard Settings</h2>
+            <p>Configure security and access settings for the admin dashboard.</p>
+
+            <form id="settingsForm">
+                <div class="form-group">
+                    <label for="adminPassword">Administrator Password</label>
+                    <input type="password" id="adminPassword" placeholder="Leave blank to keep the current password" autocomplete="new-password">
+                    <small>Passwords are stored securely and are never displayed.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminEmail">Administrator Gmail</label>
+                    <input type="email" id="adminEmail" placeholder="your-admin@gmail.com">
+                    <small>This Gmail address is required for login and password recovery.</small>
+                    <small>Current configured Gmail: <span id="currentEmail">Not configured</span></small>
+                </div>
+
+                <div class="settings-note">
+                    <strong>Note:</strong> Changes apply immediately to new login attempts. Existing sessions are revoked when credentials change.
+                </div>
+
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <button type="submit" class="btn-primary">Save Settings</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    <!-- Edit Winner Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Winner</h2>
+                <button id="modalClose" class="modal-close">×</button>
+            </div>
+
+            <form id="editWinnerForm">
+                <input type="hidden" id="editWinnerId">
+
+                <div class="form-group">
+                    <label for="editClaimCode">Claim Code *</label>
+                    <input type="text" id="editClaimCode" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editWinnerName">Winner Name *</label>
+                    <input type="text" id="editWinnerName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editPrizeCategory">Prize Category *</label>
+                    <input type="text" id="editPrizeCategory" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="editStatus">Status *</label>
+                    <select id="editStatus" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Processing">Processing</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Claimed">Claimed</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="dashboard.closeModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/jsonbin.js"></script>
+    <script src="js/formspree.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

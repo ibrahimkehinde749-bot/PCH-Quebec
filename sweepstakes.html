@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="canonical" href="https://officialpch.netlify.app/sweepstakes.html">
+    <meta name="description" content="Découvrez tous les tirages disponibles et participez pour courir la chance de gagner de fabuleux prix.">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://officialpch.netlify.app/sweepstakes.html">
+    <meta property="og:title" content="Tirages disponibles - PCH">
+    <meta property="og:description" content="Découvrez tous les tirages disponibles et participez pour courir la chance de gagner de fabuleux prix.">
+    <meta property="og:image" content="https://officialpch.netlify.app/superprize.jpg">
+    <meta property="og:image:secure_url" content="https://officialpch.netlify.app/superprize.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Tirages PCH">
+    <meta property="og:locale" content="fr_CA">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://officialpch.netlify.app/sweepstakes.html">
+    <meta name="twitter:title" content="Tirages disponibles - PCH">
+    <meta name="twitter:description" content="Découvrez tous les tirages disponibles et participez pour courir la chance de gagner de fabuleux prix.">
+    <meta name="twitter:image" content="https://officialpch.netlify.app/superprize.jpg">
+    <meta name="twitter:image:alt" content="Aperçu des tirages PCH">
+    
+    <title>Tirages disponibles - PCH</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#eba625">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="PCH">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Live Chat Widget Styles -->
+    <link rel="stylesheet" href="css/live-chat-widget.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <img src="logo.jpg" alt="Programme PCH" class="logo">
+            <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu">☰</button>
+        </div>
+    </nav>
+
+    <div class="sidebar" id="sidebar">
+        <ul class="sidebar-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="about.html">À propos</a></li>
+            <li><a href="sweepstakes.html" class="active">Tirages</a></li>
+            <li><a href="apply.html">Participer</a></li>
+            <li><a href="contact.html">Nous joindre</a></li>
+            <li><button id="downloadAppBtn" class="btn btn-primary sidebar-download" type="button">Télécharger l'application PCH+</button></li>
+        </ul>
+        <div id="installInstructionsPanel" class="install-instructions-panel hidden" aria-live="polite" role="dialog" aria-modal="true" aria-labelledby="installInstructionsHeading">
+            <h2 id="installInstructionsHeading">Instructions d'installation <span class="sr-only">(aide pour installer l'application)</span></h2>
+            <button type="button" class="install-instructions-close" tabindex="0" aria-label="Fermer les instructions d'installation">&times;</button>
+            <p id="installInstructionsText"></p>
+        </div>
+    </div>
+
+    <header class="page-header">
+        <div class="carousel">
+            <img class="hero-image active" src="1week.jpg" alt="Image du prix à gagner" />
+            <img class="hero-image" src="TIP.jpg" alt="Camion Ford" />
+            <button class="prev" onclick="prevImage()">&#10094;</button>
+            <button class="next" onclick="nextImage()">&#10095;</button>
+        </div>
+        <div class="hero-overlay"></div>
+    </header>
+    <h1 style="font-size: 3rem; margin: 0; text-shadow: 2px 2px 4px rgba(224, 131, 9, 0.7);">Tirages disponibles</h1>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <div class="grant-list">
+                    <div class="sweepstakes-card">
+                        <h3>Tirage Soutien à l'innovation</h3>
+                        <div class="sweepstakes-info">
+                         <img src="Prize.jpg" alt="Image du prix" style="width: 100%; max-width: 650px; height: auto; margin: 10px 0;">
+                         <p><strong>Prix:</strong> 2 000 000 $ et un camion Ford</p>
+                        </div>
+                        <p>C'est officiel: la Patrouille des prix est prête à remettre un gros chèque. Avec un prix de 2 millions de dollars et un camion Ford en jeu, ce n'est pas le moment de passer à côté de cette occasion! Réclamez votre participation gratuite dès maintenant pour courir la chance de gagner ce prix exceptionnel.</p>
+                        <a href="apply.html" class="btn btn-small">Participer maintenant</a>
+                    </div>
+
+                    <div class="sweepstakes-card">
+                        <h3>Tirage Impact communautaire</h3>
+                        <div class="sweepstakes-info">
+                            <img src="homepch.jpg" alt="Image d'une maison PCH" style="width: 100%; max-width: 650px; height: auto; margin: 10px 0;">
+                            <p><strong>Gagnez 1 500 000 $ pour la maison de vos rêves</strong></p>
+                        </div>
+                        <p>Imaginez une cuisine extraordinaire, une salle à manger luxueuse et une toute nouvelle piscine! Avec 1 500 000 $ pour la maison de vos rêves, vous pourriez avoir tout cela et plus encore. Participez maintenant!</p>
+                        <a href="apply.html" class="btn btn-small">Participer maintenant</a>
+                    </div>
+
+                    <div class="sweepstakes-card">
+                        <h3>Tirage Développement des entreprises</h3>
+                        <div class="sweepstakes-info">
+                            <img src="won.jpg" alt="Image du développement d'une entreprise" style="width: 100%; max-width: 650px; height: auto; margin: 10px 0;">
+                            <p><strong>Gagnez 75 000 $ pour éliminer vos dettes</strong></p>
+                            <p style="color: #ec7648;"><strong>Besoin d'argent pour rembourser vos dettes? Participez ici!</strong></p>
+                        </div>
+                        <p>Vous avez de la difficulté à rembourser vos dettes? PCH est là pour vous aider! Avec 75 000 $ pour éliminer vos dettes, nous vous donnons la chance de gagner de l'argent pour vous en débarrasser une fois pour toutes. Il vous suffit de participer maintenant pour courir la chance de gagner!</p>
+                        <a href="apply.html" class="btn btn-small">Participer maintenant</a>
+                    </div>
+
+                    <div class="sweepstakes-card">
+                        <h3>Tirage Développement durable</h3>
+                        <div class="sweepstakes-info">
+                            <img src="rescue.jpg" alt="Image d'aide financière" style="width: 100%; max-width: 650px; height: auto; margin: 10px 0;">
+                            <p><strong>De l'argent à la rescousse! Gagnez 100 000 $</strong></p>
+                            <p style="color: #ecb848;">Gagnez un prix en argent et faites payer vos factures!</p>
+                            
+                        </div>
+                        <p>Investissez dans un avenir durable. Nous finançons des projets axés sur la protection de l'environnement, les énergies renouvelables et l'action climatique.</p>
+                        <a href="apply.html" class="btn btn-small">Participer maintenant</a>
+                    </div>
+
+                    <div class="sweepstakes-card">
+                        <h3>Tirage SuperPrize</h3>
+                        <div class="sweepstakes-info">
+                            <img src="super.jpg" alt="Image du SuperPrize" style="width: 100%; max-width: 650px; height: auto; margin: 10px 0;">
+                            <p><strong>Gagnez le SuperPrize de 1 000 000 $!</strong></p>
+                            <p style="color: #ecb848;">Le SUPERPRIZE de 1 000 000 $ est de retour et se trouve uniquement chez PCH Shopping</p>
+                            
+                        </div>
+                        <li>Ce prix qui changera une vie sera remis par la Patrouille des prix de PCH dans quelques semaines, c'est garanti.</li>
+                        <li>La Patrouille des prix se rendra au domicile du gagnant pour le surprendre en personne avec le « gros chèque », des ballons, des fleurs, une bouteille de champagne et des articles PCH. La Patrouille des prix n'appelle jamais à l'avance: elle arrive simplement avec une grande surprise!</li>
+                        <li>Depuis la remise du premier SuperPrize en personne en 1967, le SuperPrize de PCH est un incontournable apprécié de la culture populaire et apparaît souvent à la télévision et au cinéma.</li>
+                        <a href="apply.html" class="btn btn-small">Participer maintenant</a>
+                    </div>
+                </div>
+
+                <p><strong>IL EST DE RETOUR!</strong></p>
+                <p>Oui, le légendaire SuperPrize est le prix dont tout le monde rêve, et vous pouvez courir la chance de le gagner chez PCH Shopping. Imaginez tout ce que vous pourriez faire avec un prix de 1 000 000 $. Vous pourriez profiter de la vie dans une nouvelle maison avec la voiture dont vous avez toujours rêvé dans l'entrée. Vous pourriez payer vos factures et enfin avoir l'esprit tranquille financièrement. Vous pourriez aider votre famille et vos proches. Avec un SuperPrize de 1 000 000 $ de PCH, les possibilités sont infinies. Voulez-vous être notre prochain grand gagnant en mai? Assurez-vous de participer et de réclamer autant de participations que possible avant la fin du délai!</p>
+
+                <h1>REMISE GARANTIE PAR LA PATROUILLE DES PRIX</h1>
+
+                <section class="eligibility">
+                    <h2>Critères généraux d'admissibilité</h2>
+                    <ul class="feature-list">
+                        <li>Être résident ou exercer des activités dans notre zone de service</li>
+                        <li>Pour les organismes sans but lucratif: avoir le statut 501(c)(3)</li>
+                        <li>Pour les entreprises: être en activité depuis au moins un an</li>
+                        <li>N'être soumis à aucune restriction de financement fédéral</li>
+                        <li>Démontrer des objectifs et des résultats de projet clairs</li>
+                    </ul>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 PCH. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6a73d510fc41071d4649fba2/1jva7gies';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
+
+    <script src="js/main.js"></script>
+    <script src="js/pwa.js"></script>
+    <!-- Live Chat Widget -->
+    <script src="js/live-chat-widget.js"></script>
+</body>
+</html>

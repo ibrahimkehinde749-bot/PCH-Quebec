@@ -1,0 +1,478 @@
+/*
+ * Live Chat Widget Styles
+ * Modern floating contact widget for social channels
+ * Customizable colors, positions, and animations
+ */
+
+/* ===== Container & Base Styles ===== */
+.live-chat-widget,
+.social-widget {
+    position: fixed;
+    left: 20px;
+    right: auto;
+    bottom: var(--live-chat-bottom-offset, 110px);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    touch-action: auto;
+    will-change: transform, opacity;
+}
+
+/* Main floating button */
+.chat-fab-button {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #d6960c 0%, #0f172a 100%);
+    border: none;
+    color: #f8fafc;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.32);
+    transition: all 0.3s ease;
+    font-size: 28px;
+}
+
+.chat-fab-button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.42);
+}
+
+.chat-fab-button:active {
+    transform: scale(0.95);
+}
+
+/* Badge counter (optional) */
+.chat-fab-button .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #e6eee6;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    border: 2px solid rgb(231, 18, 18);
+}
+
+/* ===== Menu Container ===== */
+.chat-menu-container {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    right: auto;
+    overflow: hidden;
+    min-width: 280px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8) translateY(10px);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    pointer-events: none;
+    background: rgba(15, 23, 42, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.32);
+    backdrop-filter: blur(16px);
+}
+
+.chat-menu-container.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
+    pointer-events: auto;
+}
+
+/* ===== Menu Header ===== */
+.chat-menu-header {
+    background: rgba(15, 23, 42, 0.98);
+    color: #f8fafc;
+    padding: 16px 20px;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.chat-menu-header .close-btn {
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: #f8fafc;
+    font-size: 20px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.chat-menu-header .close-btn:hover {
+    background: rgba(255, 255, 255, 0.16);
+    transform: rotate(90deg);
+}
+
+/* ===== Menu Options ===== */
+.chat-menu-options {
+    list-style: none;
+    padding: 12px 0;
+    margin: 0;
+}
+
+.chat-menu-item {
+    margin: 0;
+}
+
+.chat-option {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: #e2e8f0;
+    transition: all 0.2s ease;
+    border-left: 4px solid transparent;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.chat-option:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-left-color: #38bdf8;
+    padding-left: 20px;
+}
+
+/* ===== Option Icon ===== */
+.chat-option-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    font-size: 20px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.08);
+    color: #e2e8f0;
+}
+
+/* Facebook icon styling */
+.chat-option.facebook .chat-option-icon {
+    background: rgba(59, 130, 246, 0.14);
+    color: #60a5fa;
+}
+
+/* WhatsApp icon styling */
+.chat-option.whatsapp .chat-option-icon {
+    background: rgba(16, 185, 129, 0.14);
+    color: #34d399;
+}
+
+/* ===== Option Content ===== */
+.chat-option-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.chat-option-label {
+    font-weight: 600;
+    color: #f8fafc;
+    margin-bottom: 2px;
+}
+
+.chat-option-status {
+    font-size: 12px;
+    color: #cbd5e1;
+}
+
+.chat-option-status.online {
+    color: #34d399;
+    font-weight: 500;
+}
+
+/* ===== Arrow Indicator ===== */
+.chat-option-arrow {
+    color: #cbd5e1;
+    margin-left: 8px;
+    transition: all 0.2s ease;
+    font-size: 16px;
+}
+
+.chat-option:hover .chat-option-arrow {
+    color: #38bdf8;
+    transform: translateX(4px);
+}
+
+/* ===== Divider ===== */
+.chat-menu-divider {
+    height: 1px;
+    background: rgba(148, 163, 184, 0.16);
+    margin: 8px 0;
+}
+
+/* ===== Footer Text ===== */
+.chat-menu-footer {
+    padding: 12px 16px;
+    font-size: 11px;
+    color: #cbd5e1;
+    text-align: center;
+    background: rgba(148, 163, 184, 0.08);
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+/* ===== Pulse Animation ===== */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+    50% {
+        box-shadow: 0 4px 20px rgba(37, 99, 235, 0.6), 0 0 0 10px rgba(37, 99, 235, 0.1);
+    }
+    100% {
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+}
+
+.chat-fab-button.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* ===== Bounce Animation ===== */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.chat-fab-button.bounce {
+    animation: bounce 2s infinite;
+}
+
+/* ===== Menu Item Stagger Animation ===== */
+.chat-menu-container.active .chat-option {
+    animation: slideIn 0.3s ease forwards;
+    opacity: 0;
+}
+
+.chat-menu-container.active .chat-option:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.chat-menu-container.active .chat-option:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.chat-menu-container.active .chat-option:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ===== Responsive Design ===== */
+
+/* Mobile optimizations */
+@media (max-width: 480px) {
+    .live-chat-widget {
+        bottom: var(--live-chat-bottom-offset, 90px);
+        left: 16px;
+        right: auto;
+    }
+
+    .chat-fab-button {
+        width: 56px;
+        height: 56px;
+        font-size: 24px;
+    }
+
+    .chat-menu-container {
+        min-width: 260px;
+        bottom: 70px;
+        left: 0;
+        right: auto;
+    }
+
+    .chat-option {
+        padding: 12px 14px;
+    }
+
+    .chat-option-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+        margin-right: 10px;
+    }
+
+    .chat-menu-header {
+        padding: 14px 16px;
+        font-size: 15px;
+    }
+}
+
+/* ===== Tawk.to left-side override ===== */
+div[id^="tawk"],
+div[class*="tawk"],
+iframe[src*="tawk.to"],
+iframe[src*="tawk.com"],
+#tawkchat-container,
+#tawk-minified-container,
+#tawk-chat-container,
+#tawk-chat-minified-container,
+#tawkWidgetContainer {
+    position: fixed !important;
+    left: 20px !important;
+    right: auto !important;
+    bottom: 20px !important;
+    top: auto !important;
+    transform: none !important;
+    margin-left: 0 !important;
+    margin-right: auto !important;
+    max-width: calc(100vw - 40px) !important;
+    z-index: 9998 !important;
+    pointer-events: auto !important;
+}
+
+@media (max-width: 480px) {
+    div[id^="tawk"],
+    div[class*="tawk"],
+    iframe[src*="tawk.to"],
+    iframe[src*="tawk.com"],
+    #tawkchat-container,
+    #tawk-minified-container,
+    #tawk-chat-container,
+    #tawk-chat-minified-container,
+    #tawkWidgetContainer {
+        left: 12px !important;
+        right: auto !important;
+        bottom: 12px !important;
+        max-width: calc(100vw - 24px) !important;
+    }
+}
+
+/* Tablet optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .chat-menu-container {
+        min-width: 300px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1025px) {
+    .chat-fab-button:hover {
+        box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+    }
+}
+
+/* ===== Accessibility ===== */
+.chat-fab-button:focus,
+.chat-option:focus {
+    outline: 2px solid #eba625;
+    outline-offset: 2px;
+}
+
+/* Tablet menu positioning adjustment */
+@media (max-width: 768px) {
+    .live-chat-widget {
+        bottom: var(--live-chat-bottom-offset, 110px);
+        left: 20px;
+        right: auto;
+    }
+
+    .chat-menu-container {
+        /* Prevent menu going off-screen on small devices */
+        left: 0;
+        right: auto;
+        max-width: calc(100vw - 40px);
+        transform: translate(0, 10px) scale(0.8);
+    }
+
+    .chat-menu-container.active {
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+    .chat-fab-button {
+        width: 52px;
+        height: 52px;
+    }
+
+    .chat-menu-container {
+        min-width: 240px;
+    }
+
+    .chat-option {
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+}
+
+/* ===== Print Styles ===== */
+@media print {
+    .live-chat-widget {
+        display: none;
+    }
+}
+
+/* ===== Dark Mode Support (Optional) ===== */
+@media (prefers-color-scheme: dark) {
+    .chat-menu-container {
+        background: #1f2937;
+    }
+
+    .chat-option {
+        color: #f3f4f6;
+    }
+
+    .chat-option-label {
+        color: #f3f4f6;
+    }
+
+    .chat-option-status {
+        color: #a2a6ad;
+    }
+
+    .chat-option:hover {
+        background: #374151;
+    }
+
+    .chat-menu-divider {
+        background: #4b5563;
+    }
+
+    .chat-menu-footer {
+        background: #111827;
+        border-top-color: #4b5563;
+        color: #6b7280;
+    }
+}
