@@ -5,12 +5,14 @@
  */
 
 class WinnersDataLoader {
-    constructor(apiBaseUrl = 'https://pch-quebec.onrender.com') {
+    constructor(apiBaseUrl = 'https://pch-quebec.onrender.com', refreshInterval = 7000) {
         this.apiUrl = `${String(apiBaseUrl).replace(/\/$/, '')}/api/public/winners`;
+        this.refreshInterval = refreshInterval;
+        this.isLoading = false;
     }
 
     async fetchWinners() {
-        const response = await fetch(this.apiUrl, {
+        const response = await fetch(`${this.apiUrl}?t=${Date.now()}`, {
             headers: { Accept: 'application/json' }
         });
         if (!response.ok) throw new Error(`Winners request failed with status ${response.status}.`);
@@ -25,17 +27,20 @@ class WinnersDataLoader {
             return;
         }
 
+        if (this.isLoading) return;
+        this.isLoading = true;
         let winners;
         try {
+            tableBody.innerHTML = '<tr><td colspan="4">Chargement des gagnants...</td></tr>';
             winners = await this.fetchWinners();
         } catch (error) {
             console.error('Unable to load current winners:', error);
+            tableBody.innerHTML = '<tr><td colspan="4">Impossible de charger les gagnants. Veuillez réessayer plus tard.</td></tr>';
+            this.isLoading = false;
             return;
         }
 
-        if (winners && winners.length > 0) {
-            // Populate table with JSONBin data
-            tableBody.innerHTML = winners.map(winner => `
+        tableBody.innerHTML = winners.length > 0 ? winners.map(winner => `
                 <tr>
                     <td>${this.escapeHtml(winner.claimCode || '')}</td>
                     <td>${this.escapeHtml(winner.winnerName || '')}</td>
@@ -44,11 +49,16 @@ class WinnersDataLoader {
                         ${this.escapeHtml(this.getLocalizedStatus(winner.status || 'Pending'))}
                     </td>
                 </tr>
-            `).join('');
-        } else {
-            // Keep existing table data if JSONBin fetch fails
-            console.log('Using existing table data');
-        }
+            `).join('') : '<tr><td colspan="4">Aucun gagnant disponible.</td></tr>';
+        this.isLoading = false;
+    }
+
+    startAutoRefresh() {
+        window.setInterval(() => this.loadWinnersTable(), this.refreshInterval);
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) this.loadWinnersTable();
+        });
+        window.addEventListener('focus', () => this.loadWinnersTable());
     }
 
     getStatusClass(status) {
@@ -87,4 +97,5 @@ class WinnersDataLoader {
 document.addEventListener('DOMContentLoaded', async () => {
     const winnersLoader = new WinnersDataLoader();
     await winnersLoader.loadWinnersTable();
+    winnersLoader.startAutoRefresh();
 });
