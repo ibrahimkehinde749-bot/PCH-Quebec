@@ -5,7 +5,7 @@
  */
 
 class WinnersDataLoader {
-    constructor(apiBaseUrl = 'https://pch-quebec.onrender.com', refreshInterval = 7000) {
+    constructor(apiBaseUrl = 'https://pch-quebec.onrender.com', refreshInterval = 30000) {
         this.apiUrl = `${String(apiBaseUrl).replace(/\/$/, '')}/api/public/winners`;
         this.refreshInterval = refreshInterval;
         this.isLoading = false;
@@ -31,11 +31,11 @@ class WinnersDataLoader {
         this.isLoading = true;
         let winners;
         try {
-            tableBody.innerHTML = '<tr><td colspan="4">Chargement des gagnants...</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="4">Latest Winners Loading...</td></tr>';
             winners = await this.fetchWinners();
         } catch (error) {
             console.error('Unable to load current winners:', error);
-            tableBody.innerHTML = '<tr><td colspan="4">Impossible de charger les gagnants. Veuillez réessayer plus tard.</td></tr>';
+            tableBody.innerHTML = '<tr><td colspan="4">Latest Winners are temporarily unavailable. Please try again later.</td></tr>';
             this.isLoading = false;
             return;
         }
@@ -49,7 +49,7 @@ class WinnersDataLoader {
                         ${this.escapeHtml(this.getLocalizedStatus(winner.status || 'Pending'))}
                     </td>
                 </tr>
-            `).join('') : '<tr><td colspan="4">Aucun gagnant disponible.</td></tr>';
+            `).join('') : '<tr><td colspan="4">No current winners are available.</td></tr>';
         this.isLoading = false;
     }
 
