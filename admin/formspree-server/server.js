@@ -13,10 +13,15 @@ const sessions = new Map();
 
 const app = express();
 app.set('trust proxy', 1);
-const allowedOrigins = String(process.env.ADMIN_ALLOWED_ORIGIN || '')
+const configuredOrigins = String(process.env.ADMIN_ALLOWED_ORIGIN || '')
     .split(',')
     .map(origin => origin.trim())
     .filter(Boolean);
+const allowedOrigins = [...new Set([
+    ...configuredOrigins,
+    'https://officialpch.netlify.app',
+    'https://pchsweepstakes.netlify.app'
+])];
 function isAllowedOrigin(origin) {
     return !origin || allowedOrigins.includes(origin);
 }
