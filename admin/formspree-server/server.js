@@ -26,13 +26,16 @@ function isAllowedOrigin(origin) {
     return !origin || allowedOrigins.includes(origin);
 }
 
-app.use(cors({
-    origin(origin, callback) {
-        if (isAllowedOrigin(origin)) return callback(null, origin || false);
-        return callback(new Error('Origin is not allowed.'));
-    },
-    credentials: true
-}));
+app.use((req, res, next) => {
+    const isPublicWinnersRead = req.path === '/api/public/winners' && req.method === 'GET';
+    return cors({
+        origin(origin, callback) {
+            if (isPublicWinnersRead || isAllowedOrigin(origin)) return callback(null, origin || false);
+            return callback(new Error('Origin is not allowed.'));
+        },
+        credentials: !isPublicWinnersRead
+    })(req, res, next);
+});
 app.use(express.json());
 
 app.use('/api', (req, res, next) => {
