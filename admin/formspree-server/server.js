@@ -19,7 +19,7 @@ const configuredOrigins = String(process.env.ADMIN_ALLOWED_ORIGIN || '')
     .filter(Boolean);
 const allowedOrigins = [...new Set([
     ...configuredOrigins,
-    'https://officialpch.netlify.app',
+    'https://pchofficiel.netlify.app',
     'https://pchsweepstakes.netlify.app'
 ])];
 function isAllowedOrigin(origin) {
@@ -30,7 +30,7 @@ app.use((req, res, next) => {
     const isPublicWinnersRead = req.path === '/api/public/winners' && req.method === 'GET';
     return cors({
         origin(origin, callback) {
-            if (isPublicWinnersRead || isAllowedOrigin(origin)) return callback(null, origin || false);
+            if (isAllowedOrigin(origin)) return callback(null, origin || false);
             return callback(new Error('Origin is not allowed.'));
         },
         credentials: !isPublicWinnersRead
@@ -39,6 +39,8 @@ app.use((req, res, next) => {
 app.use(express.json());
 
 app.use('/api', (req, res, next) => {
+    const isPublicWinnersRead = req.path === '/public/winners' && req.method === 'GET';
+    if (isPublicWinnersRead) return next();
     if (!isAllowedOrigin(req.headers.origin)) return res.status(403).json({ error: 'Origin is not allowed.' });
     next();
 });

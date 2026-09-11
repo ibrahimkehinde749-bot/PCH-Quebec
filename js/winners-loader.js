@@ -93,7 +93,7 @@ class WinnersDataLoader {
     }
 }
 
-// Keep the existing static table visible if the public API is unavailable.
+// Public pages use the Render API; no static winners fallback is permitted.
 document.addEventListener('DOMContentLoaded', async () => {
     const winnersLoader = new WinnersDataLoader();
     await winnersLoader.loadWinnersTable();
