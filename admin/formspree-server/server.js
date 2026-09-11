@@ -296,6 +296,17 @@ app.put('/api/admin/winners', requireSession, async (req, res) => {
     }
 });
 
+app.get('/api/public/winners', async (req, res) => {
+    try {
+        requireEnvironment(['JSONBIN_BIN_ID', 'JSONBIN_MASTER_KEY']);
+        const record = await jsonBinRequest('GET');
+        res.setHeader('Cache-Control', 'no-store');
+        return res.json({ winners: Array.isArray(record.winners) ? record.winners : [] });
+    } catch (error) {
+        return sendServerError(res, error);
+    }
+});
+
 app.get('/api/health', (req, res) => res.json({ ok: true }));
 
 app.post('/api/admin/recovery', async (req, res) => {

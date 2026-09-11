@@ -46,6 +46,7 @@ What this does
 - Binds to `0.0.0.0` and `process.env.PORT` for Render.
 - Stores administrator email, a salted scrypt password hash, credential revision, and hashed expiring reset state in the private auth JSONBin.
 - Provides server-side login, logout, session validation, and one-time password-reset endpoints.
+- Exposes `GET /api/public/winners` for the public winners page; it returns only the winners array and never exposes the JSONBin Master Key.
 - Public application and contact forms submit directly from Netlify to `https://formspree.io/f/xgawendv` using Formspree's standard HTTP form endpoint. No Formspree credentials are required on Render.
 - Does not require a Render persistent disk.
 

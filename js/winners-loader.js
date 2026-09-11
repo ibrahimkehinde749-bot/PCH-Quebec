@@ -1,16 +1,21 @@
 /**
  * Winners Page Data Loader
- * Keeps the public table static because private JSONBin access is not safe
- * from visitor browsers.
+ * Loads public winners through the Render backend. The backend owns the
+ * JSONBin Master Key; this browser only receives the winners records.
  */
 
 class WinnersDataLoader {
-    constructor(binId, masterKey) {
-        this.apiUrl = null;
+    constructor(apiBaseUrl = 'https://pch-quebec.onrender.com') {
+        this.apiUrl = `${String(apiBaseUrl).replace(/\/$/, '')}/api/public/winners`;
     }
 
     async fetchWinners() {
-        return null;
+        const response = await fetch(this.apiUrl, {
+            headers: { Accept: 'application/json' }
+        });
+        if (!response.ok) throw new Error(`Winners request failed with status ${response.status}.`);
+        const data = await response.json();
+        return Array.isArray(data.winners) ? data.winners : [];
     }
 
     async loadWinnersTable() {
@@ -20,8 +25,13 @@ class WinnersDataLoader {
             return;
         }
 
-        // Try to fetch from JSONBin
-        const winners = await this.fetchWinners();
+        let winners;
+        try {
+            winners = await this.fetchWinners();
+        } catch (error) {
+            console.error('Unable to load current winners:', error);
+            return;
+        }
 
         if (winners && winners.length > 0) {
             // Populate table with JSONBin data
@@ -73,8 +83,8 @@ class WinnersDataLoader {
     }
 }
 
-// Auto-initialize when page loads
-let winnersLoader;
+// Keep the existing static table visible if the public API is unavailable.
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('Public winners table uses static data; private JSONBin access is disabled in the browser.');
+    const winnersLoader = new WinnersDataLoader();
+    await winnersLoader.loadWinnersTable();
 });
