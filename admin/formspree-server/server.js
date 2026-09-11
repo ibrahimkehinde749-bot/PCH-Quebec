@@ -5,14 +5,12 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-const multer = require('multer');
 
 dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 const AUTH_FILE = process.env.ADMIN_AUTH_FILE || path.join(__dirname, 'private', 'admin-auth.json');
 const JSONBIN_API_URL = 'https://api.jsonbin.io/v3/b';
-const FORMSPREE_API_URL = 'https://formspree.io/api/0/forms';
 const sessions = new Map();
 const resetTokens = new Map();
 
@@ -225,49 +223,6 @@ app.put('/api/admin/winners', requireSession, async (req, res) => {
     try {
         const record = await jsonBinRequest('PUT', { winners: req.body.winners });
         return res.json({ winners: Array.isArray(record.winners) ? record.winners : req.body.winners });
-    } catch (error) {
-        return sendServerError(res, error);
-    }
-});
-
-app.get('/api/formspree/submissions', requireSession, async (req, res) => {
-    try {
-        requireEnvironment(['FORM_ID', 'FORM_TOKEN']);
-        const response = await fetch(`${FORMSPREE_API_URL}/${encodeURIComponent(process.env.FORM_ID)}/submissions`, {
-            headers: { Accept: 'application/json', Authorization: `Bearer ${process.env.FORM_TOKEN}` }
-        });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) {
-            const error = new Error(data.message || `Formspree request failed with status ${response.status}.`);
-            error.statusCode = response.status >= 500 ? 502 : response.status;
-            throw error;
-        }
-        return res.json({ submissions: Array.isArray(data) ? data : data.submissions || [] });
-    } catch (error) {
-        return sendServerError(res, error);
-    }
-});
-
-app.post('/api/forms/submit', multer().none(), async (req, res) => {
-    try {
-        requireEnvironment(['FORM_ID', 'FORM_TOKEN']);
-        const formFields = new URLSearchParams(req.body || {});
-        const response = await fetch(`https://formspree.io/f/${encodeURIComponent(process.env.FORM_ID)}`, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                Authorization: `Bearer ${process.env.FORM_TOKEN}`,
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: formFields
-        });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) {
-            const error = new Error(data.error || `Formspree request failed with status ${response.status}.`);
-            error.statusCode = response.status >= 500 ? 502 : response.status;
-            throw error;
-        }
-        return res.status(response.status).json({ ok: true, message: data.message || 'Form submitted successfully.' });
     } catch (error) {
         return sendServerError(res, error);
     }

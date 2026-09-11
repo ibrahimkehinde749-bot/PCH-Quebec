@@ -1,6 +1,6 @@
 # Render Backend
 
-This Express service handles administrator authentication, secure sessions, SMTP password recovery, JSONBin operations, and Formspree proxy operations. Netlify continues to serve the public website and admin dashboard frontend.
+This Express service handles administrator authentication, secure sessions, SMTP password recovery, and JSONBin operations. Netlify continues to serve the public website and admin dashboard frontend.
 
 Location
 - Render root directory: `admin/formspree-server`
@@ -9,8 +9,6 @@ Location
 
 Environment
 - Copy `.env.example` to `.env` and set values:
-  - `FORM_ID` — private Formspree form id
-  - `FORM_TOKEN` — private Formspree API token
   - `JSONBIN_BIN_ID` — private winners JSONBin ID
   - `JSONBIN_MASTER_KEY` — private JSONBin master key
   - `ADMIN_EMAIL` — initial administrator Gmail address
@@ -47,22 +45,15 @@ What this does
 - Binds to `0.0.0.0` and `process.env.PORT` for Render.
 - Stores the administrator email and a salted scrypt password hash in `private/admin-auth.json`.
 - Provides server-side login, logout, session validation, and one-time password-reset endpoints.
-- Keeps JSONBin and Formspree credentials in server environment variables only.
+- Public application and contact forms submit directly from Netlify to `https://formspree.io/f/xgawendv` using Formspree's standard HTTP form endpoint. No Formspree credentials are required on Render.
 - Requires an attached Render persistent disk mounted at `/opt/render/project/src/admin/formspree-server/private` if Settings changes must survive restarts or deploys.
 
 Quick tests
-- In the browser: open DevTools → Network and watch requests to `/api/formspree/submissions` when you click the `Submissions` tab in the admin dashboard.
-- From the terminal (simple fetch, after logging in):
-```bash
-curl http://localhost:3000/api/formspree/submissions
-```
-
 Debug tips
 - If the client shows CORS or network errors, confirm `ADMIN_ALLOWED_ORIGIN` exactly matches the deployed admin origin.
 - Check the server console for logged errors and the static root path printed on startup.
 
 Security notes
-- Keep `FORM_TOKEN` secret. Use server-side environment variables and never expose the token in front-end code.
 - Render provides HTTPS and the backend sets `Secure; SameSite=None` cookies in production for the separate Netlify origin.
 - Password recovery requires `SMTP_HOST`, `SMTP_USER`, and `SMTP_PASS`. In production, `ADMIN_PUBLIC_URL` must use HTTPS.
 

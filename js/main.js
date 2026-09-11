@@ -224,9 +224,7 @@ setupSwipeControls();
 
 // Setup form handlers
 function setupFormHandlers() {
-    // Formspree endpoint configuration (replace with your Formspree form URL)
-    // Example: https://formspree.io/f/abcd1234
-    window.FORMSPREE_FORM_ENDPOINT = window.FORMSPREE_FORM_ENDPOINT || `${window.ADMIN_API_BASE_URL || window.location.origin}/api/forms/submit`;
+    window.FORMSPREE_FORM_ENDPOINT = 'https://formspree.io/f/xgawendv';
     
     const grantForm = document.getElementById('sweepstakes');
     const contactForm = document.getElementById('contactForm');
