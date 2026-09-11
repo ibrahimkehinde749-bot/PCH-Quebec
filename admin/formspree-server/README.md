@@ -1,6 +1,6 @@
 # Render Backend
 
-This Express service handles administrator authentication, secure sessions, SMTP password recovery, and JSONBin operations. Netlify continues to serve the public website and admin dashboard frontend.
+This Express service handles administrator authentication, secure sessions, SMTP password recovery, and JSONBin operations. Netlify continues to serve the public website and admin dashboard frontend. Administrator credentials and reset state are stored as a salted password hash and expiring token hash in a dedicated private JSONBin record, so Render Free does not require a persistent disk.
 
 Location
 - Render root directory: `admin/formspree-server`
@@ -10,9 +10,10 @@ Location
 Environment
 - Copy `.env.example` to `.env` and set values:
   - `JSONBIN_BIN_ID` — private winners JSONBin ID
+  - `ADMIN_AUTH_BIN_ID` — separate private JSONBin ID for administrator authentication state
   - `JSONBIN_MASTER_KEY` — private JSONBin master key
-  - `ADMIN_EMAIL` — initial administrator Gmail address
-  - `ADMIN_PASSWORD` — initial administrator password, at least 12 characters
+  - `ADMIN_EMAIL` — bootstrap Gmail address; needed until the auth bin is initialized
+  - `ADMIN_PASSWORD` — bootstrap password; hashed immediately and never stored plaintext
   - `ADMIN_ALLOWED_ORIGIN` — HTTPS origin of the deployed admin frontend
   - `SMTP_HOST` — required SMTP hostname from your email provider
   - `SMTP_PORT` — optional SMTP port; `587` for STARTTLS or `465` for implicit TLS
@@ -43,10 +44,10 @@ http://localhost:3000/admin/index.html
 
 What this does
 - Binds to `0.0.0.0` and `process.env.PORT` for Render.
-- Stores the administrator email and a salted scrypt password hash in `private/admin-auth.json`.
+- Stores administrator email, a salted scrypt password hash, credential revision, and hashed expiring reset state in the private auth JSONBin.
 - Provides server-side login, logout, session validation, and one-time password-reset endpoints.
 - Public application and contact forms submit directly from Netlify to `https://formspree.io/f/xgawendv` using Formspree's standard HTTP form endpoint. No Formspree credentials are required on Render.
-- Requires an attached Render persistent disk mounted at `/opt/render/project/src/admin/formspree-server/private` if Settings changes must survive restarts or deploys.
+- Does not require a Render persistent disk.
 
 Quick tests
 Debug tips

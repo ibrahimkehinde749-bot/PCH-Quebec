@@ -4,7 +4,8 @@
  * Run: node test-formspree.js
  */
 
-const fetch = require('node-fetch');
+const fetch = globalThis.fetch;
+if (typeof fetch !== 'function') throw new Error('This test requires Node.js 18 or newer.');
 
 // Configuration
 const FORM_ENDPOINT = process.env.FORM_ENDPOINT;

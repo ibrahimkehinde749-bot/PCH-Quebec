@@ -22,6 +22,7 @@ class AdminAuth {
         try {
             const response = await fetch(this.apiUrl('/api/admin/me'), { credentials: 'include' });
             const result = await response.json();
+            if (!response.ok) throw new Error(result.error || 'The authentication server is unavailable.');
             if (result.authenticated) this.unlockDashboard();
             if (new URLSearchParams(window.location.search).has('reset')) this.setupPasswordReset();
         } catch (error) {
@@ -45,12 +46,15 @@ class AdminAuth {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email: emailInput.value, password: passwordInput.value })
                 });
+                const result = await response.json().catch(() => ({}));
                 if (response.ok) {
                     errorDiv.style.display = 'none';
                     passwordInput.value = '';
                     this.unlockDashboard();
                 } else {
-                    errorDiv.textContent = 'Invalid administrator email or password.';
+                    errorDiv.textContent = result.code === 'INVALID_CREDENTIALS'
+                        ? 'Invalid administrator email or password.'
+                        : (result.error || 'The authentication server is unavailable. Please try again later.');
                     errorDiv.style.display = 'block';
                     passwordInput.value = '';
                     passwordInput.focus();
@@ -79,6 +83,7 @@ class AdminAuth {
             try {
                 const response = await fetch(this.apiUrl('/api/admin/recovery'), {
                     method: 'POST',
+                    credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email: resetEmailInput.value })
                 });
@@ -107,6 +112,7 @@ class AdminAuth {
             }
             const response = await fetch(this.apiUrl('/api/admin/reset-password'), {
                 method: 'POST',
+                credentials: 'include',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token: new URLSearchParams(window.location.search).get('reset'), password })
             });
